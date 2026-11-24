@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "ЛР8 Лекториум API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base", "value": "http://localhost:5208/api/courses" },
+    { "key": "courseId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "1 POST — создать курс",
+      "event": [{ "listen": "test", "script": { "exec": ["pm.collectionVariables.set('courseId', pm.response.json()._id);"] } }],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"title\": \"Онлайн-курс «Основы TypeScript»\",\n  \"price\": 49,\n  \"description\": \"Типы, интерфейсы, дженерики и практика в React-проектах\"\n}" },
+        "url": "{{base}}"
+      }
+    },
+    { "name": "2 GET — список курсов", "request": { "method": "GET", "url": "{{base}}" } },
+    { "name": "3 GET — курс по id", "request": { "method": "GET", "url": "{{base}}/{{courseId}}" } },
+    {
+      "name": "4 PUT — обновить курс",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"price\": 39\n}" },
+        "url": "{{base}}/{{courseId}}"
+      }
+    },
+    { "name": "5 DELETE — удалить курс", "request": { "method": "DELETE", "url": "{{base}}/{{courseId}}" } },
+    {
+      "name": "6 POST — ошибка валидации (400)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"price\": -5\n}" },
+        "url": "{{base}}"
+      }
+    },
+    { "name": "7 GET — удалённый курс (404)", "request": { "method": "GET", "url": "{{base}}/{{courseId}}" } }
+  ]
+}
